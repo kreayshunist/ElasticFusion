@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string.h>
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -59,7 +59,7 @@ public:
 
       int bufferIndex = (latestRgbIndex.getValue() + 1) % numBuffers;
 
-      :memcpy(rgbBuffers[bufferIndex].first, frame.get_data(),
+      memcpy(rgbBuffers[bufferIndex].first, frame.get_data(),
         frame.get_width() * frame.get_height() * 3);
 
       rgbBuffers[bufferIndex].second = lastRgbTime;
@@ -131,6 +131,8 @@ private:
 #ifdef WITH_REALSENSE
   rs2::device *dev;
   rs2::context ctx;
+  rs2::config cfg;
+  rs2::pipeline pipe;
 
   RGBCallback * rgbCallback;
   DepthCallback * depthCallback;

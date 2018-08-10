@@ -9,14 +9,15 @@ RealSenseInterface::RealSenseInterface(int inWidth,int inHeight,int inFps)
   dev(nullptr),
   initSuccessful(true)
 {
-  if(ctx.get_device_count() == 0)
+  auto list = ctx.query_devices();
+  if (list.size() == 0)
   {
     errorText = "No device connected.";
     initSuccessful = false;
     return;
   }
 
-  dev = ctx.get_device(0);
+  dev = list.front();
   dev->enable_stream(rs::stream::depth,width,height,rs::format::z16,fps);
   dev->enable_stream(rs::stream::color,width,height,rs::format::rgb8,fps);
 
